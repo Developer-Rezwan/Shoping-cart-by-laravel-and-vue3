@@ -12,28 +12,41 @@
           <br />
           <div class="d-flex justify-content-between">
             {{ item.quantity }} x ${{ item.product.price }}
-            <button class="badge btn text-danger">remove</button>
+            <button
+              class="badge btn text-danger"
+              @click.prevent="removeCartItem(item.product.id)"
+            >
+              remove
+            </button>
           </div>
           <hr />
         </div>
       </template>
       <div class="d-flex justify-content-between">
         <strong>Total : ${{ totalPrice }}</strong>
-        <button class="text-danger justify-content-between btn btn-sm">clear cart</button>
+        <button
+          class="text-danger justify-content-between btn btn-sm"
+          @click.prevent="clearAllTheCart()"
+        >
+          clear cart
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { computed } from "vue";
-import { useStore } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 export default {
-  setup() {
-    const store = useStore();
-    const cart = computed(() => store.state.cart);
-    const totalPrice = computed(() => store.getters.totalPrice);
-    return { cart, totalPrice };
+  computed: {
+    ...mapState(["cart"]),
+    ...mapGetters(["totalPrice"]),
+  },
+  mounted() {
+    this.addProductToCartFromDB();
+  },
+  methods: {
+    ...mapActions(["removeCartItem", "clearAllTheCart", "addProductToCartFromDB"]),
   },
 };
 </script>

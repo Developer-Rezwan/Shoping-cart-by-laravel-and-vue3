@@ -32,7 +32,7 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {{ countItemOfCart }} cart
+            {{ countCartItem }} cart
           </a>
           <MiniCart />
         </div>
@@ -42,15 +42,15 @@
 </template>
 
 <script>
-import { computed } from "vue";
-import { useStore } from "vuex";
+import { mapGetters } from "vuex";
 import MiniCart from "./MiniCart.vue";
 export default {
   components: { MiniCart },
+  computed: {
+    ...mapGetters(["countCartItem"]),
+  },
   setup() {
-    const store = useStore();
-    const countItemOfCart = computed(() => store.getters.countCartItem);
-    return { countItemOfCart };
+    return {};
   },
 };
 </script>

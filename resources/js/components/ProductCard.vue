@@ -17,20 +17,19 @@
 </template>
 
 <script>
-import { useStore } from "vuex";
+import { mapActions } from "vuex";
 export default {
   props: {
     product: Object,
   },
-  setup(props) {
-    const store = useStore();
-    function addToCart() {
-      store.dispatch("addProductToCart", {
-        product: props.product,
+  methods: {
+    ...mapActions(["addProductToCart"]),
+    addToCart() {
+      this.addProductToCart({
+        product: this.product,
         quantity: 1,
       });
-    }
-    return { addToCart };
+    },
   },
 };
 </script>

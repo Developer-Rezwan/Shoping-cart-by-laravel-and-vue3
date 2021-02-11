@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-wrap align-items-stretch justify-content-center">
-    <div v-for="product in state.products" :key="product.id">
+    <div v-for="product in products" :key="product.id">
       <ProductCard :product="product" />
     </div>
     <div class="container-fluid d-flex justify-content-center">
@@ -9,7 +9,7 @@
           <li class="page-item"><a class="page-link" href="#">Previous</a></li>
           <li
             class="page-item"
-            v-for="page in Number((state.products.length / 10).toFixed())"
+            v-for="page in Number((products.length / 10).toFixed())"
             :key="page"
           >
             <a class="page-link" href="#">{{ page }}</a>
@@ -22,20 +22,18 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive } from "vue";
 import ProductCard from "./ProductCard.vue";
-import { useStore } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   components: { ProductCard },
-  setup() {
-    const store = useStore();
-    const state = reactive({
-      products: computed(() => store.state.products),
-    });
-    onMounted(() => {
-      store.dispatch("getProducts");
-    });
-    return { state };
+  computed: {
+    ...mapState(["products"]),
+  },
+  mounted() {
+    this.getProducts();
+  },
+  methods: {
+    ...mapActions(["getProducts"]),
   },
 };
 </script>

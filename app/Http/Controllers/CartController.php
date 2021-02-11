@@ -14,72 +14,33 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        return Cart::with('product')
+        ->orderBy('updated_at' , 'desc')
+        ->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $item = Cart::where('product_id' , $request->product_id)->first();
+        if(isset($item)){
+            $item->quantity += $request->quantity;
+            $item->save();
+        }else{
+           Cart::create($request->only('quantity', 'product_id'));
+           return response()->json([
+                'success'   => true
+            ] , 200);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cart $cart)
+    public function destroy($product_id)
     {
-        //
+        Cart::where('product_id', $product_id)
+        ->delete($product_id);
+        return response(null, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Cart $cart)
-    {
-        //
+    public function destroyAll(){
+        Cart::truncate();
     }
 }

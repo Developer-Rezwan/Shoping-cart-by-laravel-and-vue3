@@ -2,13 +2,13 @@
   <div class="card mb-3 mt-5 shadow" style="max-width: 840px">
     <div class="row">
       <div class="col-md-4">
-        <img src="https:via.placeholder.com/250x250" :alt="state.product.title" />
+        <img src="https:via.placeholder.com/250x250" :alt="product.title" />
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">{{ state.product.title }}</h5>
+          <h5 class="card-title">{{ product.title }}</h5>
           <p class="card-text">
-            {{ state.product.description }}
+            {{ product.description }}
           </p>
           <div class="d-flex">
             <div class="form-group col-2 mx-3">
@@ -16,7 +16,7 @@
                 type="number"
                 pattern="{[0-9]+}"
                 class="form-control"
-                v-model="state.quantity"
+                v-model.number="state.quantity"
               />
             </div>
             <br />
@@ -28,7 +28,7 @@
           </div>
           <p class="card-text">
             <small class="text-muted">{{
-              state.moment(state.product.created_at).fromNow()
+              state.moment(product.created_at).fromNow()
             }}</small>
           </p>
         </div>
@@ -39,32 +39,36 @@
 
 <script>
 import moment from "moment";
-import { computed, onMounted, reactive } from "vue";
-import { useStore } from "vuex";
+import { reactive } from "vue";
+import { mapActions, mapState } from "vuex";
 export default {
   props: {
     id: String,
   },
-  setup(props) {
-    const store = useStore();
+  computed: {
+    ...mapState(["product"]),
+  },
+  mounted() {
+    this.getProduct(this.id);
+  },
+  methods: {
+    ...mapActions(["getProduct", "addProductToCart"]),
+    addToCart() {
+      this.addProductToCart({
+        product: this.product,
+        quantity:
+          Number(this.state.quantity) < 0
+            ? Number(this.state.quantity) * -1
+            : Number(this.state.quantity),
+      });
+    },
+  },
+  setup() {
     const state = reactive({
       quantity: 1,
       moment: moment,
-      product: computed(() => store.state.product),
     });
-    onMounted(() => {
-      store.dispatch("getProduct", props.id);
-    });
-    function addToCart() {
-      store.dispatch("addProductToCart", {
-        product: state.product,
-        quantity:
-          Number(state.quantity) < 0
-            ? Number(state.quantity) * -1
-            : Number(state.quantity),
-      });
-    }
-    return { state, addToCart };
+    return { state };
   },
 };
 </script>
