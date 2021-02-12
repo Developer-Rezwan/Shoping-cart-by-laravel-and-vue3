@@ -1,5 +1,4 @@
-export default  {
+export default {
     products: [],
     product: "",
-    cart : []
 }

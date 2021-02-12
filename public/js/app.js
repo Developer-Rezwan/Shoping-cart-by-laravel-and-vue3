@@ -19366,10 +19366,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     MiniCart: _MiniCart_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["countCartItem"])),
-  setup: function setup() {
-    return {};
-  }
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["countCartItem"]))
 });
 
 /***/ }),
@@ -19394,7 +19391,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(["cart"])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["totalPrice"])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
+    cart: function cart(state) {
+      return state.cart.cart;
+    }
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["totalPrice"])),
   mounted: function mounted() {
     this.addProductToCartFromDB();
   },
@@ -19463,7 +19464,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     ProductCard: _ProductCard_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(["products"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)({
+    products: function products(state) {
+      return state.product.products;
+    }
+  })),
   mounted: function mounted() {
     this.getProducts();
   },
@@ -19521,7 +19526,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: {
     id: String
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(["product"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)({
+    product: function product(state) {
+      return state.product.product;
+    }
+  })),
   mounted: function mounted() {
     this.getProduct(this.id);
   },
@@ -20166,74 +20175,85 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createRouter)({
 
 /***/ }),
 
-/***/ "./resources/js/store/actions.js":
-/*!***************************************!*\
-  !*** ./resources/js/store/actions.js ***!
-  \***************************************/
+/***/ "./resources/js/store/index.js":
+/*!*************************************!*\
+  !*** ./resources/js/store/index.js ***!
+  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getProducts": () => (/* binding */ getProducts),
-/* harmony export */   "getProduct": () => (/* binding */ getProduct),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _modules_product__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/product */ "./resources/js/store/modules/product/index.js");
+/* harmony import */ var _modules_cart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/cart */ "./resources/js/store/modules/cart/index.js");
+
+
+
+var store = (0,vuex__WEBPACK_IMPORTED_MODULE_2__.createStore)({
+  modules: {
+    product: _modules_product__WEBPACK_IMPORTED_MODULE_0__.default,
+    cart: _modules_cart__WEBPACK_IMPORTED_MODULE_1__.default
+  }
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/cart/actions.js":
+/*!****************************************************!*\
+  !*** ./resources/js/store/modules/cart/actions.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addProductToCart": () => (/* binding */ addProductToCart),
 /* harmony export */   "addProductToCartFromDB": () => (/* binding */ addProductToCartFromDB),
 /* harmony export */   "removeCartItem": () => (/* binding */ removeCartItem),
 /* harmony export */   "clearAllTheCart": () => (/* binding */ clearAllTheCart)
 /* harmony export */ });
-/* harmony import */ var _apis_Product__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../apis/Product */ "./resources/js/apis/Product.js");
-/* harmony import */ var _apis_Cart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../apis/Cart */ "./resources/js/apis/Cart.js");
+/* harmony import */ var _apis_Cart__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../apis/Cart */ "./resources/js/apis/Cart.js");
 
-
-function getProducts(_ref) {
+function addProductToCart(_ref, _ref2) {
   var commit = _ref.commit;
-  _apis_Product__WEBPACK_IMPORTED_MODULE_0__.default.all().then(function (res) {
-    commit('SET_PRODUCTS', res.data);
-  });
-}
-function getProduct(_ref2, productId) {
-  var commit = _ref2.commit;
-  _apis_Product__WEBPACK_IMPORTED_MODULE_0__.default.show(productId).then(function (res) {
-    commit('SET_PRODUCT', res.data);
-  });
-}
-function addProductToCart(_ref3, _ref4) {
-  var commit = _ref3.commit;
-  var product = _ref4.product,
-      quantity = _ref4.quantity;
+  var product = _ref2.product,
+      quantity = _ref2.quantity;
   commit('ADD_TO_CART', {
     product: product,
     quantity: quantity
   });
-  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__.default.store({
+  _apis_Cart__WEBPACK_IMPORTED_MODULE_0__.default.store({
     product_id: product.id,
     quantity: quantity
   });
 }
-function addProductToCartFromDB(_ref5) {
-  var commit = _ref5.commit;
-  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__.default.all().then(function (res) {
+function addProductToCartFromDB(_ref3) {
+  var commit = _ref3.commit;
+  _apis_Cart__WEBPACK_IMPORTED_MODULE_0__.default.all().then(function (res) {
     commit('SET_TO_CART_ITEM_FROM_DB', res.data);
   });
 }
-function removeCartItem(_ref6, productId) {
-  var commit = _ref6.commit;
+function removeCartItem(_ref4, productId) {
+  var commit = _ref4.commit;
   commit('REMOVE_SINGLE_ITEM_FROM_CART', productId);
-  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__.default.delete(productId);
+  _apis_Cart__WEBPACK_IMPORTED_MODULE_0__.default.delete(productId);
 }
-function clearAllTheCart(_ref7) {
-  var commit = _ref7.commit;
+function clearAllTheCart(_ref5) {
+  var commit = _ref5.commit;
   commit('CLEAR_ALL_CART');
-  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__.default.deleteAll();
+  _apis_Cart__WEBPACK_IMPORTED_MODULE_0__.default.deleteAll();
 }
 
 /***/ }),
 
-/***/ "./resources/js/store/getters.js":
-/*!***************************************!*\
-  !*** ./resources/js/store/getters.js ***!
-  \***************************************/
+/***/ "./resources/js/store/modules/cart/getters.js":
+/*!****************************************************!*\
+  !*** ./resources/js/store/modules/cart/getters.js ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -20255,10 +20275,10 @@ function totalPrice(state) {
 
 /***/ }),
 
-/***/ "./resources/js/store/index.js":
-/*!*************************************!*\
-  !*** ./resources/js/store/index.js ***!
-  \*************************************/
+/***/ "./resources/js/store/modules/cart/index.js":
+/*!**************************************************!*\
+  !*** ./resources/js/store/modules/cart/index.js ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -20266,52 +20286,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
-/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./state */ "./resources/js/store/state.js");
-/* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getters */ "./resources/js/store/getters.js");
-/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mutations */ "./resources/js/store/mutations.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ "./resources/js/store/actions.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./state */ "./resources/js/store/modules/cart/state.js");
+/* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getters */ "./resources/js/store/modules/cart/getters.js");
+/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mutations */ "./resources/js/store/modules/cart/mutations.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ "./resources/js/store/modules/cart/actions.js");
 
 
 
 
-
-var store = (0,vuex__WEBPACK_IMPORTED_MODULE_4__.createStore)({
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: _state__WEBPACK_IMPORTED_MODULE_0__.default,
   getters: _getters__WEBPACK_IMPORTED_MODULE_1__,
   mutations: _mutations__WEBPACK_IMPORTED_MODULE_2__,
   actions: _actions__WEBPACK_IMPORTED_MODULE_3__
 });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
 
 /***/ }),
 
-/***/ "./resources/js/store/mutations.js":
-/*!*****************************************!*\
-  !*** ./resources/js/store/mutations.js ***!
-  \*****************************************/
+/***/ "./resources/js/store/modules/cart/mutations.js":
+/*!******************************************************!*\
+  !*** ./resources/js/store/modules/cart/mutations.js ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SET_PRODUCTS": () => (/* binding */ SET_PRODUCTS),
-/* harmony export */   "SET_PRODUCT": () => (/* binding */ SET_PRODUCT),
 /* harmony export */   "ADD_TO_CART": () => (/* binding */ ADD_TO_CART),
 /* harmony export */   "SET_TO_CART_ITEM_FROM_DB": () => (/* binding */ SET_TO_CART_ITEM_FROM_DB),
 /* harmony export */   "REMOVE_SINGLE_ITEM_FROM_CART": () => (/* binding */ REMOVE_SINGLE_ITEM_FROM_CART),
 /* harmony export */   "CLEAR_ALL_CART": () => (/* binding */ CLEAR_ALL_CART)
 /* harmony export */ });
-// All product list for Homepage
-function SET_PRODUCTS(state, products) {
-  state.products = products;
-}
-; //Single product by Id
-
-function SET_PRODUCT(state, product) {
-  state.product = product;
-}
-;
 function ADD_TO_CART(state, _ref) {
   var product = _ref.product,
       quantity = _ref.quantity;
@@ -20342,10 +20347,126 @@ function CLEAR_ALL_CART(state) {
 
 /***/ }),
 
-/***/ "./resources/js/store/state.js":
-/*!*************************************!*\
-  !*** ./resources/js/store/state.js ***!
-  \*************************************/
+/***/ "./resources/js/store/modules/cart/state.js":
+/*!**************************************************!*\
+  !*** ./resources/js/store/modules/cart/state.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  cart: []
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/product/actions.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/store/modules/product/actions.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getProducts": () => (/* binding */ getProducts),
+/* harmony export */   "getProduct": () => (/* binding */ getProduct)
+/* harmony export */ });
+/* harmony import */ var _apis_Product__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../apis/Product */ "./resources/js/apis/Product.js");
+
+function getProducts(_ref) {
+  var commit = _ref.commit;
+  _apis_Product__WEBPACK_IMPORTED_MODULE_0__.default.all().then(function (res) {
+    commit('SET_PRODUCTS', res.data);
+  });
+}
+function getProduct(_ref2, productId) {
+  var commit = _ref2.commit;
+  _apis_Product__WEBPACK_IMPORTED_MODULE_0__.default.show(productId).then(function (res) {
+    commit('SET_PRODUCT', res.data);
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/product/getters.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/store/modules/product/getters.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "check": () => (/* binding */ check)
+/* harmony export */ });
+function check() {
+  return "Hello";
+}
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/product/index.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/modules/product/index.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./state */ "./resources/js/store/modules/product/state.js");
+/* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getters */ "./resources/js/store/modules/product/getters.js");
+/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mutations */ "./resources/js/store/modules/product/mutations.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ "./resources/js/store/modules/product/actions.js");
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: _state__WEBPACK_IMPORTED_MODULE_0__.default,
+  getters: _getters__WEBPACK_IMPORTED_MODULE_1__,
+  mutations: _mutations__WEBPACK_IMPORTED_MODULE_2__,
+  actions: _actions__WEBPACK_IMPORTED_MODULE_3__
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/product/mutations.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/store/modules/product/mutations.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SET_PRODUCTS": () => (/* binding */ SET_PRODUCTS),
+/* harmony export */   "SET_PRODUCT": () => (/* binding */ SET_PRODUCT)
+/* harmony export */ });
+// All product list for Homepage
+function SET_PRODUCTS(state, products) {
+  state.products = products;
+}
+; //Single product by Id
+
+function SET_PRODUCT(state, product) {
+  state.product = product;
+}
+;
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/product/state.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/modules/product/state.js ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -20355,8 +20476,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   products: [],
-  product: "",
-  cart: []
+  product: ""
 });
 
 /***/ }),

@@ -1,20 +1,6 @@
-import Product from '../apis/Product';
-import Cart from '../apis/Cart';
+import Cart from '../../../apis/Cart';
 
-export function getProducts({ commit }) {
-    Product.all()
-        .then((res) => {
-        commit('SET_PRODUCTS', res.data);
-    });
-}
-export function getProduct({commit} , productId) {
-    Product.show(productId)
-        .then(res => {
-            commit('SET_PRODUCT', res.data);
-        });
-}
-
-export function addProductToCart({commit} , {product , quantity}) {
+export function addProductToCart({ commit }, { product, quantity }) {
     commit('ADD_TO_CART', { product, quantity });
     Cart.store({
         product_id : product.id,

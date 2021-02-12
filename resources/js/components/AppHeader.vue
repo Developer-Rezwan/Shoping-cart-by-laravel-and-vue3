@@ -49,9 +49,6 @@ export default {
   computed: {
     ...mapGetters(["countCartItem"]),
   },
-  setup() {
-    return {};
-  },
 };
 </script>
 

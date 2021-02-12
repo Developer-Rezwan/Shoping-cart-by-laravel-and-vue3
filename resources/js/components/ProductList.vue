@@ -27,7 +27,9 @@ import { mapActions, mapState } from "vuex";
 export default {
   components: { ProductCard },
   computed: {
-    ...mapState(["products"]),
+    ...mapState({
+      products: (state) => state.product.products,
+    }),
   },
   mounted() {
     this.getProducts();

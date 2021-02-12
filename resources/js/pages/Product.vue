@@ -46,7 +46,9 @@ export default {
     id: String,
   },
   computed: {
-    ...mapState(["product"]),
+    ...mapState({
+      product: (state) => state.product.product,
+    }),
   },
   mounted() {
     this.getProduct(this.id);
