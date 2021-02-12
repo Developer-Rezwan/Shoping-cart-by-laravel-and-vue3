@@ -39,16 +39,18 @@
 import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   computed: {
-    ...mapState({
-      cart: (state) => state.cart.cart,
-    }),
-    ...mapGetters(["totalPrice"]),
+    ...mapState("cart", ["cart"]),
+    ...mapGetters("cart", ["totalPrice"]),
   },
   mounted() {
     this.addProductToCartFromDB();
   },
   methods: {
-    ...mapActions(["removeCartItem", "clearAllTheCart", "addProductToCartFromDB"]),
+    ...mapActions("cart", [
+      "removeCartItem",
+      "clearAllTheCart",
+      "addProductToCartFromDB",
+    ]),
   },
 };
 </script>

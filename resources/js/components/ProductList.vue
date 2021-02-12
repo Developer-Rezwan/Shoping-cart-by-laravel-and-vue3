@@ -27,15 +27,13 @@ import { mapActions, mapState } from "vuex";
 export default {
   components: { ProductCard },
   computed: {
-    ...mapState({
-      products: (state) => state.product.products,
-    }),
+    ...mapState("product", ["products"]),
   },
   mounted() {
     this.getProducts();
   },
   methods: {
-    ...mapActions(["getProducts"]),
+    ...mapActions("product", ["getProducts"]),
   },
 };
 </script>

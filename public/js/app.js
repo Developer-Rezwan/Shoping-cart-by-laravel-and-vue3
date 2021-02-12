@@ -19366,7 +19366,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     MiniCart: _MiniCart_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["countCartItem"]))
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)("cart", ["countCartItem"]))
 });
 
 /***/ }),
@@ -19391,15 +19391,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
-    cart: function cart(state) {
-      return state.cart.cart;
-    }
-  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["totalPrice"])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)("cart", ["cart"])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)("cart", ["totalPrice"])),
   mounted: function mounted() {
     this.addProductToCartFromDB();
   },
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["removeCartItem", "clearAllTheCart", "addProductToCartFromDB"]))
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("cart", ["removeCartItem", "clearAllTheCart", "addProductToCartFromDB"]))
 });
 
 /***/ }),
@@ -19427,7 +19423,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: {
     product: Object
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["addProductToCart"])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("cart", ["addProductToCart"])), {}, {
     addToCart: function addToCart() {
       this.addProductToCart({
         product: this.product,
@@ -19464,15 +19460,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     ProductCard: _ProductCard_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)({
-    products: function products(state) {
-      return state.product.products;
-    }
-  })),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)("product", ["products"])),
   mounted: function mounted() {
     this.getProducts();
   },
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(["getProducts"]))
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)("product", ["getProducts"]))
 });
 
 /***/ }),
@@ -19526,15 +19518,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: {
     id: String
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)({
-    product: function product(state) {
-      return state.product.product;
-    }
-  })),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)("product", ["product"])),
   mounted: function mounted() {
     this.getProduct(this.id);
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(["getProduct", "addProductToCart"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)("product", ["getProduct"])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)("cart", ["addProductToCart"])), {}, {
     addToCart: function addToCart() {
       this.addProductToCart({
         product: this.product,
@@ -20295,6 +20283,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
   state: _state__WEBPACK_IMPORTED_MODULE_0__.default,
   getters: _getters__WEBPACK_IMPORTED_MODULE_1__,
   mutations: _mutations__WEBPACK_IMPORTED_MODULE_2__,
@@ -20430,6 +20419,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
   state: _state__WEBPACK_IMPORTED_MODULE_0__.default,
   getters: _getters__WEBPACK_IMPORTED_MODULE_1__,
   mutations: _mutations__WEBPACK_IMPORTED_MODULE_2__,

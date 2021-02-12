@@ -47,7 +47,7 @@ import MiniCart from "./MiniCart.vue";
 export default {
   components: { MiniCart },
   computed: {
-    ...mapGetters(["countCartItem"]),
+    ...mapGetters("cart", ["countCartItem"]),
   },
 };
 </script>

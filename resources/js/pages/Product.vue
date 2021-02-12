@@ -46,15 +46,14 @@ export default {
     id: String,
   },
   computed: {
-    ...mapState({
-      product: (state) => state.product.product,
-    }),
+    ...mapState("product", ["product"]),
   },
   mounted() {
     this.getProduct(this.id);
   },
   methods: {
-    ...mapActions(["getProduct", "addProductToCart"]),
+    ...mapActions("product", ["getProduct"]),
+    ...mapActions("cart", ["addProductToCart"]),
     addToCart() {
       this.addProductToCart({
         product: this.product,

@@ -23,7 +23,7 @@ export default {
     product: Object,
   },
   methods: {
-    ...mapActions(["addProductToCart"]),
+    ...mapActions("cart", ["addProductToCart"]),
     addToCart() {
       this.addProductToCart({
         product: this.product,
